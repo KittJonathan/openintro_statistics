@@ -1,0 +1,7 @@
+---
+title: "Chapter 1 - Introduction to data"
+format: html
+editor: visual
+---
+
+# 1.1 Case study: using stents to prevent strokes
