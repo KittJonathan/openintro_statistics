@@ -5,3 +5,103 @@ editor: visual
 ---
 
 # 1.1 Case study: using stents to prevent strokes
+
+```{r}
+#| include: false
+library(openintro)
+library(tidyverse)
+library(gt)
+```
+
+```{r}
+#| include: false
+stent_30days <- stent30 |> 
+  rowid_to_column(var = "patient") |> 
+  rename("30days" = outcome)
+
+stent_365days <- stent365 |> 
+  rowid_to_column(var = "patient") |> 
+  rename('365days' = outcome)
+
+stent <- stent_30days |> 
+  left_join(stent_365days) |> 
+  pivot_longer(cols = !(patient:group), 
+               names_to = "time", 
+               values_to = "outcome")
+```
+
+```{r}
+#| echo: false
+stent |> 
+  count(group, time, outcome) |> 
+  gt()
+```
+
+**Guided practice 1.1**
+
+```{r}
+round(45 / 224, 2)
+```
+
+Proportion of people who had a stroke after 1 year in the treatment and control groups:
+
+```{r}
+#| echo: false
+stent |> 
+  mutate(total = n(), .by = c(group, time)) |> 
+  filter(outcome == "stroke", time == "365days") |> 
+  mutate(n = n(), .by = group) |> 
+  mutate(proportion = round(n / total, 2)) |> 
+  slice_head(n = 1, by = c(group)) |> select(-patient) |> 
+  gt()
+```
+
+**Exercise 1.1**
+
+```{r}
+openintro::migraine |> 
+  count(group, pain_free)
+
+10 / 43
+2 / 46
+```
+
+**Exercise 1.2**
+
+```{r}
+openintro::sinusitis |> 
+  count(group, self_reported_improvement)
+
+66 / (19 + 66)
+65 / (16 + 65)
+```
+
+# 1.2 Data basics
+
+## 1.2.1 Observations, variables, and data matrices
+
+## 1.2.2 Types of variables
+
+## 1.2.3 Relationships between variables
+
+## 1.2.4 Explanatory and response variables
+
+## 1.2.5 Introducing observational studies and experiments
+
+# 1.3 Sampling principles and strategies
+
+## 1.3.1 Populations and samples
+
+## 1.3.2 Anecdotal evidence
+
+## 1.3.3 Sampling from a population
+
+## 1.3.4 Observational studies
+
+## 1.3.5 Four sampling methods
+
+# 1.4 Experiments
+
+## 1.4.1 Principles of experimental design
+
+## 1.4.2 Reducing bias in human experiments
